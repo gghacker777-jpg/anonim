@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КулиЧат - Анонимный чат</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="chat-header">
+            <h1>🎉 КулиЧат</h1>
+            <div class="online-status">
+                <span class="online-dot"></span>
+                Онлайн
+            </div>
+        </header>
+
+        <div class="chat-messages" id="chat-messages">
+            <div class="welcome-message">
+                <div class="welcome-icon">💬</div>
+                <h3>Добро пожаловать в КулиЧат!</h3>
+                <p>Здесь вы можете общаться анонимно со всеми пользователями</p>
+            </div>
+        </div>
+
+        <div class="message-input-container">
+            <div class="input-wrapper">
+                <input
+                    type="text"
+                    id="message-input"
+                    placeholder="Напишите ваше сообщение..."
+                    maxlength="500"
+                    autocomplete="off"
+                >
+                <input
+                    type="file"
+                    id="file-input"
+                    accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt"
+                    style="display: none;"
+                >
+                <button id="attach-button" class="attach-btn" title="Прикрепить файл">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.5 6V17.5C16.5 19.71 14.71 21.5 12.5 21.5C10.29 21.5 8.5 19.71 8.5 17.5V5C8.5 3.62 9.62 2.5 11 2.5C12.38 2.5 13.5 3.62 13.5 5V15.5C13.5 16.05 13.05 16.5 12.5 16.5C11.95 16.5 11.5 16.05 11.5 15.5V6H10V15.5C10 17.16 11.34 18.5 13 18.5C14.66 18.5 16 17.16 16 15.5V5C16 2.79 14.21 1 12 1S8 2.79 8 5V17.5C8 20.54 10.46 23 13.5 23C16.54 23 19 20.54 19 17.5V6H16.5Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button id="send-button" class="send-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="file-preview" class="file-preview" style="display: none;"></div>
+            <div class="input-info">
+                <span class="char-count">0/500</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="image-modal">
+        <div class="image-modal-content">
+            <img id="modal-image" src="" alt="">
+            <button id="close-modal" class="close-modal-btn">&times;</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+    </div>

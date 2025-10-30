@@ -1,0 +1,16 @@
+{
+  "name": "cooli-chat",
+  "version": "1.0.0",
+  "description": "Cool anonymous chat application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "keywords": ["chat", "anonymous", "cool"],
+  "author": "",
+  "license": "ISC"
+}
