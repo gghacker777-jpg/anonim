@@ -11,30 +11,41 @@ const closeModalBtn = document.getElementById('close-modal');
 
 let scrollToBottomBtn, currentFile = null;
 
-const USE_LOCAL_STORAGE = true;
+let lastMessageId = -1;
 
 function loadMessages() {
-    const messages = JSON.parse(localStorage.getItem('coolichat_messages') || '[]');
-    chatMessages.innerHTML = messages.length === 0 ?
-        `<div class="welcome-message">
-            <div class="welcome-icon">💬</div>
-            <h3>Добро пожаловать в КулиЧат!</h3>
-            <p>Здесь вы можете общаться анонимно</p>
-        </div>` : '';
-    messages.forEach(m => addMessage(m, false));
-    setTimeout(() => chatMessages.scrollTop = chatMessages.scrollHeight, 100);
-}
-
-function saveMessages(messages) {
-    localStorage.setItem('coolichat_messages', JSON.stringify(messages));
+    fetch('/api/messages')
+        .then(response => response.json())
+        .then(messages => {
+            if (messages.length === 0) {
+                chatMessages.innerHTML = `<div class="welcome-message">
+                    <div class="welcome-icon">💬</div>
+                    <h3>Добро пожаловать в КулиЧат!</h3>
+                    <p>Здесь вы можете общаться анонимно</p>
+                </div>`;
+                lastMessageId = -1;
+            } else {
+                const newMessages = messages.filter(m => m.id > lastMessageId);
+                newMessages.forEach(m => addMessage(m, false));
+                if (newMessages.length > 0) {
+                    lastMessageId = messages[messages.length - 1].id;
+                    setTimeout(() => chatMessages.scrollTop = chatMessages.scrollHeight, 100);
+                }
+            }
+        })
+        .catch(err => console.error('Error loading messages:', err));
 }
 
 function sendMessageToServer(messageData) {
-    const messages = JSON.parse(localStorage.getItem('coolichat_messages') || '[]');
-    const message = { id: Date.now(), ...messageData };
-    messages.push(message);
-    saveMessages(messages);
-    return Promise.resolve(message);
+    return fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(messageData)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to send message');
+        return response.json();
+    });
 }
 
 function formatTimestamp(timestamp) {
@@ -227,4 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
     messageInput.focus();
     updateCharCount();
     chatMessages.onscroll = checkScrollPosition;
+
+    // Poll for new messages every 2 seconds
+    setInterval(loadMessages, 2000);
 });
